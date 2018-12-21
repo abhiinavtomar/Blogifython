@@ -1,0 +1,27 @@
+<% include ./partials/header %>
+
+<div id="login-container">
+    <form action="/register" method="POST">
+            
+            <h1>REGISTER</h1>
+            <div class="ui corner labeled input">
+                <input type="text" placeholder="Username" name="username">
+                <div class="ui corner label">
+                    <i class="asterisk icon"></i>
+                </div>
+            </div>
+           
+            <div class="ui corner labeled input">
+                <input type="password" placeholder="Password" name="password">
+                    <div class="ui corner label">
+                    <i class="asterisk icon"></i>
+                </div>
+            </div>
+            <br>
+            
+            <br>
+            <button class="ui inverted teal button">REGISTER</button>
+    </form>
+</div>
+
+<% include ./partials/footer %>

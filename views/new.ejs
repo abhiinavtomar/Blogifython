@@ -2,6 +2,7 @@
 
 <div class="ui main text container segment">
     <div class="ui huge header">New Blog</div>
+    
 
 <form class="ui form" action="/blogs" method="POST">
     <div class="field">
@@ -12,12 +13,14 @@
         <label>Image</label>
         <input type="text" name="blog[image]" placeholder="Image URL">
     </div>
+    
     <div class="field">
         <label>Body</label>
         <textarea name="blog[body]" placeholder="Your post goes here" required></textarea>
     </div>
     <input class="ui inverted big teal button" type="submit">
 </form>
+<a href="https://unsplash.com/" class="ui inverted red button">Find Online Pictures here , paste the URL above</a>
 </div>
 
 <% include partials/footer.ejs %>

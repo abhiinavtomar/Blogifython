@@ -12,12 +12,14 @@
         <label>Image</label>
         <input type="text" name="blog[image]" value="<%= blog.image %>">
     </div>
+    
     <div class="field">
         <label>Body</label>
         <textarea name="blog[body]" required><%= blog.body %></textarea>
     </div>
     <input class="ui inverted big teal button" type="submit">
 </form>
+<a href="https://unsplash.com/" class="ui inverted orange button item">Find Online Pictures here , paste the URL above</a>
 </div>
 
 <% include partials/footer.ejs %>

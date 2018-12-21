@@ -1,17 +1,35 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title>BLOG APP</title>
+        <title>BLOGIFYTHON</title>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
         <link rel="stylesheet" type="text/css" href="/stylesheet/app.css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    	<link href="https://fonts.googleapis.com/css?family=Avenir" rel="stylesheet">
     </head>
     <body>
         <div class="ui fixed inverted menu">
             <div class="ui container">
-                <div class="header item"><i class="code icon"></i>BLOG SITE</div>
+                <div class="header item"><i class="code icon"></i>BLOGIFYTHON<br>By Abhinav Tomar</div>
                 <a href="/" class="item">Home</a>
+                <a href="/blogs" class="item">Blogs</a>
                 <a href="/blogs/new" class="item">New Post</a>
+                <% if(error != "") { %>
+                    <div class="ui negative message"> <%= error %> </div>
+                <% } else if(success != "") { %>
+                    <div class="ui teal message"> <%= success %> </div>
+                <% } %>
+                <div class="right menu">
+                    <% if(!currentUser){ %>
+                    <a href="/login" class="item">LOGIN</a>
+                    <a href="/register" class="item">REGISTER</a>
+                    <% } else { %>
+                    <div class="item"><a href="#">Signed In As <%= currentUser.username %></a></div>
+                    <a href="/logout" class="item">LOGOUT</a>
+                    <% } %>
+                </div>
             </div>
         </div>
+    
         
     

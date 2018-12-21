@@ -1,110 +1,54 @@
-var express             = require("express"),
-    app                 = express(),
-    mongoose            = require("mongoose"),
-    bodyParser          = require("body-parser"),
-    methodOverride      = require("method-override"),
-    expressSanitizer    = require("express-sanitizer");
+var express                 = require("express"),
+    app                     = express(),
+    flash                   = require("connect-flash"),
+    mongoose                = require("mongoose"),
+    bodyParser              = require("body-parser"),
+    methodOverride          = require("method-override"),
+    expressSanitizer        = require("express-sanitizer"),
+    passport                = require("passport"),
+    passportLocal           = require("passport-local"),
+    User                    = require("./models/user");
+    
+//  REQUIRING ROUTES
+var commentRoutes    = require("./routes/comments"),
+    blogRoutes       = require("./routes/blogs"),
+    indexRoutes      = require("./routes/index");
    
 //   APP CONFIG
-mongoose.connect("mongodb://localhost:27017/blogapp", {useNewUrlParser: true});
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/blogapp";
+mongoose.connect(url, {useNewUrlParser: true});
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(expressSanitizer());
 
-//   MONGOOSE/MODEL CONFIG 
-var blogSchema = new mongoose.Schema({
-    title: String,
-    image: String,
-    body: String,
-    created: {type: Date, default: Date.now}
-}),
-    blogs = mongoose.model("blog", blogSchema);
+//  PASSPORT CONFIGURATION
+app.use(require("express-session")({
+    secret: "abhiinavtomar",
+    resave: false,
+    saveUninitialized: false
+}));
 
-//   RESTful ROUTES
-app.get("/",function(req, res) {
-    res.redirect("/blogs");
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new passportLocal(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use(function(req, res, next){
+   res.locals.currentUser   = req.user;
+   res.locals.error         = req.flash("error");
+   res.locals.success       = req.flash("success");
+   next();
 });
 
-//   1. INDEX
-app.get("/blogs", function(req, res){
-    blogs.find({}, function(err, blogs){
-        if(err) {
-            console.log(err);
-        }
-        else {
-            res.render("index", {blogs: blogs});
-        }
-    });
-});
+//  ROUTES
+app.use("/blogs", blogRoutes);
+app.use("/blogs/:id/comments", commentRoutes);
+app.use("/", indexRoutes);
 
-//  2.  NEW
-app.get("/blogs/new", function(req, res) {
-    res.render("new"); 
-});
-
-//  3.  CREATE
-app.post("/blogs", function(req, res){
-    req.body.blog.body = req.sanitize(req.body.blog.body);
-    blogs.create(req.body.blog, function(err, blog){
-        if(err) {
-            res.render("new");
-        }
-        else {
-            res.redirect("/blogs");
-        }
-    }); 
-});
-
-//  3.  SHOW 
-app.get("/blogs/:id", function(req, res) {
-    blogs.findById(req.params.id, function(err, blog){
-        if(err) {
-            res.redirect("/blogs");
-        }      
-        else {
-            res.render("show", {blog: blog});
-        }
-    });
-});
-
-//  4.  EDIT 
-app.get("/blogs/:id/edit",function(req, res) {
-    blogs.findById(req.params.id, function(err, blog) {
-        if(err) {
-            res.redirect("/blogs");
-        }
-        else {
-            res.render("edit", {blog: blog});
-        }
-    });
-});
-
-//  5.  UPDATE
-app.put("/blogs/:id", function(req, res){
-    req.body.blog.body = req.sanitize(req.body.blog.body);
-     blogs.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
-            if(err) {
-                res.redirect("/blogs");
-            } 
-            else {
-                res.redirect("/blogs/"+ req.params.id);
-            }
-     });
-});
-
-//  6.  DELETE
-app.delete("/blogs/:id", function(req, res){
-    blogs.findByIdAndRemove(req.params.id, function(err){
-       if(err) {
-           res.redirect("/blogs");
-       }
-       else {
-           res.redirect("/blogs");
-       }
-    });
-});
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server has started..."); 
 });

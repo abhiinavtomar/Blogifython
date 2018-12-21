@@ -2,9 +2,10 @@
 
 <div class="ui main text container">
     <div class="ui huge header">Blog App</div>
+    <a href="/blogs/new" class="ui violet huge button">CREATE A NEW POST</a>
     <div class="ui top attached segment">
         <div class="ui divided items">
-            <% blogs.forEach(function(blog){ %>
+            <% user.blogs.forEach(function(blog){ %>
                 <div class="item">
                     <div class="image">
                         <img src = "<%= blog.image %>" alt = "BlogsImage">
@@ -12,7 +13,7 @@
                     <div class="content">
                         <a class="header" href="/blogs/<%= blog._id %>" ><%= blog.title %></a>
                         <div class="meta">
-                            <span> <%= blog.created.toDateString() %> </span>
+                            <span> <%= blog.created %> </span>
                         </div>
                         <div class="description">
                             <p> <%- blog.body.substring(0, 100) %>... </p>

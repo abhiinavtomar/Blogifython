@@ -1,25 +1,56 @@
-<% include partials/header.ejs %>
+<% include ./partials/header %>
 
 <div class="ui main text container segment">
     <div class="ui huge header"> <%= blog.title %></div>
+    
     <div class="ui top attached">
+        
         <div class="item">
             <img class="ui centered rounded image" src = "<%= blog.image %>" alt = "BlogsImage">
+            <br>
             <div class="content">
-                <span> <%= blog.created.toDateString() %> </p>
+                <span> <%= blog.created.toDateString() %> </spanp>
+                <span><div class="item">Posted by : <%= blog.owner[0].username %></div></span>
             </div>
+            <br>
             <div class="description">
-                <p> <%- blog.body %> </p>
+                <p style="border:1px solid black;border-radius:20px; padding: 5px;"> <%- blog.body %> </p>
             </div>
-            <a class="ui orange inverted button" href="/blogs/<%= blog._id %>/edit" >Edit</a>
-            <form id="delete" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
-                <button class="ui red inverted button">DELETE</button>                
-            </form>
+            <br>
+            
+                <% if(blog.owner[0].equals(currentUser._id)) { %>
+                    <a class="ui orange inverted button" href="/blogs/<%= blog._id %>/edit" >Edit</a>
+                    <form id="delete" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                        <button class="ui red inverted button">DELETE</button>                
+                    </form>
+                <% } %>
+            
         </div>
+        <br>
+        <h2 style="text-align: center;">COMMENTS</h2>
+        <div class="item">
+            <form action="/blogs/<%= blog._id %>/comments" method="POST">
+            <div class="ui fluid action input">
+                <input type="text" placeholder="Add Comment Area..." name="comment" class="prompt">
+                <button class="ui teal inverted button">Add Comment</button>
+            </div>
+             </form>
+        </div>
+            
+            <div>
+                <% blog.comments.forEach(function(comment){ %>
+                        <div class="item" style="border: 1px solid black; border-radius: 20px;padding: 5px;">
+                            <span> <strong> <%= comment.author %>  : </strong> </span>
+                            <span> <%= comment.text %> </span>
+                            
+                            <form action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                <button class="ui inverted red button">Delete</button>
+                            </form>
+                        </div> 
+                <% }) %>
+            </div>
         
-        
-        
-    </div>
+         </div>
     
 </div>
 
