@@ -29,7 +29,7 @@ router.post("/", isLoggedIn, function(req, res){
             res.redirect("/blogs/" + req.params.id);
         }
         else {
-            blog.owner.push(req.user);
+            blog.owner = req.user;
             blog.save();
             req.user.blogs.push(blog);
             req.user.save();
@@ -40,7 +40,7 @@ router.post("/", isLoggedIn, function(req, res){
 });
 
 //  SHOW A BLOG 
-router.get("/:id", isLoggedIn, function(req, res) {
+router.get("/:id", function(req, res) {
     Blog.findById(req.params.id).populate({path: 'owner comments'}).exec(function(err, blog){
         if(err) {
             console.log(err);

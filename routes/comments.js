@@ -8,20 +8,18 @@ router.post("/", isLoggedIn, function(req, res) {
     Blog.findById(req.params.id, function(err, blog) {
         if(err) {
             console.log(err);
-            req.flash("error", "Comment not created");
-            res.redirect("/blogs/" + req.params.id);
+            res.json({'res': 0});
         } else {
             var commentobj = { text: req.body.comment, author: req.user.username};
+            // console.log(req.body);
             Comment.create( commentobj, function(err, comment) {
                 if(err) {
                     console.log(err);
-                    req.flash("error", "Comment not created !!!");
-                    res.redirect("/blogs/" + req.params.id);
+                    res.json({'res': 0});
                 } else {
                     blog.comments.push(comment);
                     blog.save();
-                    req.flash("success", "Comment Added Successfully ...");
-                    res.redirect("/blogs/" + req.params.id);
+                    res.json({'res': 1});
                 }
             });
         }

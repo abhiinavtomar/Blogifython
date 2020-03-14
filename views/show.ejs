@@ -1,25 +1,5 @@
 <% include ./partials/header %>
 
-<div class="ui unstackable items">
-    <div class="item">
-        <div class="image">
-            <img src="<%= blog.image %>" alt="BlogsImage">
-        </div>
-        <div class="content">
-            <a class="header"><%= blog.title %></a>
-            <div class="meta">
-                <span>Description</span>
-            </div>
-            <div class="description">
-                <p><%= blog.body %></p>
-            </div>
-            <div class="extra">
-                Additional Details
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="messageDiv" class="ui message" style="display: none;position: fixed;top: 50px;z-index: 10;width: 100%;">
     <i class="close icon" onclick="closeMsg()"></i>
     <div class="ui center aligned header">
@@ -27,87 +7,138 @@
     </div>
     <p style="text-align: center;"><a href="/login">Login</a> to continue.</p>
 </div>
-<div class="ui segment" style="background-color: rgba(0, 0, 0, 0.6); color: white;padding: 70px 0 0 10px;">
-                    <div class="content">
-                            <div class="right floated"><%= blog.created.getDate() + "-" + (blog.created.getMonth()+1) + "-" + blog.created.getFullYear() %></div>
-                            <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/large/elliot.jpg"> <%= blog.owner.username %>
-                    </div>
-                
-                    
-                    <div class="content">
-                            <span class="right floated">
-                                    <%= blog.comments.length + " comments"%> 
-                            </span>
-                                 
-                             
-                            <% if(!currentUser) { %>
-                                    <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="color: red;display: none;" title="UnLike" class="heart icon"></i>
-                                    <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="color: black;" title="Like" class="heart outline icon"></i>
-                            <% } else if(blog.likes.find((user)=> user.id==currentUser.id)) { %>
-                                    <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="color: red;" title="UnLike" class="heart icon"></i>
-                                    <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="color: black;display: none;" title="Like" class="heart outline icon"></i>
-                            <% } else { %>
-                                    <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="color: red;display: none;" title="UnLike" class="heart icon"></i>
-                                    <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="color: black;" title="Like" class="heart outline icon"></i>
-                            <% } %>
-                            <span id="likeCount<%= blog._id %>"><%= blog.likes.length + " likes"%></span>
-                    </div>
-            </div>
-</div>
-
-
-<div class="ui main text container segment">
-    <div class="ui huge header"> <%= blog.title %></div>
-    
-    <div class="ui top attached">
-        
-        <div class="item">
-            <img class="ui centered rounded image" src = "<%= blog.image %>" alt = "BlogsImage">
-            <br>
+<div class="" style="margin: 10;">
+    <div class="">
+        <div class="" style="float:right;max-width: 500px; margin: 10px;background-color: white;padding: 0px;overflow: hidden;">
+            <img src="<%= blog.image %>" alt="BlogsImage">
             <div class="content">
-                <span> <%= blog.created.toDateString() %> </spanp>
-                <span><div class="item">Posted by : <%= blog.owner.username %></div></span>
-            </div>
-            <br>
-            <div class="description">
-                <p style="border:1px solid black;border-radius:20px; padding: 5px;"> <%- blog.body %> </p>
-            </div>
-            <br>
-            
-                <% if(blog.owner.equals(currentUser._id)) { %>
-                    <a class="ui orange inverted button" href="/blogs/<%= blog._id %>/edit" >Edit</a>
-                    <form id="delete" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
-                        <button class="ui red inverted button">DELETE</button>                
-                    </form>
+                <span class="" style="float: right;padding: 5px;">
+                    <%= blog.comments.length + " comments"%> 
+                </span>
+                <% if(!currentUser) { %>
+                        <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="margin: 5px;padding: 5px; color: red;display: none;" title="UnLike" class="heart icon"></i>
+                        <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="margin: 5px;padding: 5px; color: black;" title="Like" class="heart outline icon"></i>
+                <% } else if(blog.likes.find(user=> user._id==currentUser.id)) { %>
+                        <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="margin: 5px;padding: 5px; color: red;" title="UnLike" class="heart icon"></i>
+                        <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="margin: 5px;padding: 5px; color: black;display: none;" title="Like" class="heart outline icon"></i>
+                <% } else { %>
+                        <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="margin: 5px;padding: 5px; color: red;display: none;" title="UnLike" class="heart icon"></i>
+                        <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="margin: 5px;padding: 5px; color: black;" title="Like" class="heart outline icon"></i>
                 <% } %>
-            
-        </div>
-        <br>
-        <h2 style="text-align: center;">COMMENTS</h2>
-        <div class="item">
-            <form action="/blogs/<%= blog._id %>/comments" method="POST">
-            <div class="ui fluid action input">
-                <input type="text" placeholder="Add Comment Area..." name="comment" class="prompt">
-                <button class="ui teal inverted button">Add Comment</button>
+                <span id="likeCount<%= blog._id %>" style="font-weight: bolder;margin: auto;"><%= blog.likes.length + " likes"%></span>
             </div>
-             </form>
+        </div>
+        <div class="content" style="background-color: rgba(0, 0, 0, 0.6); padding: 10px;color: whitesmoke;">
+            <h1 class="" style="text-decoration: underline;color: orangered; font-weight: bolder;"><%= blog.title %></h1>
+            
+            <div class="meta">
+                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/large/elliot.jpg" style="margin: 5 15 5 7;"> 
+                <span class="" style="font-size: 20; "><%= blog.owner.username %></span>
+                <br>
+                <i class="calendar alternate icon" style="margin: 5 10 5 5; color: cornflowerblue;"></i>
+                <span class="" style="font-size: 17;"><%= blog.created.getDate() + "-" + (blog.created.getMonth()+1) + "-" + blog.created.getFullYear() %></span>
+                <br>
+                <i style="margin: 5 10 5 5; color: red;" class="heart icon"></i>
+                <span style="font-size: 17;"><%= blog.likes.length %> Likes</span> 
+            </div>
+            
+            <div class="" style="padding: 10px;margin: 15px;font-size: 18;font-family: 'Courier New', Courier, monospace;color: tomato;font-weight: 900;">
+                <p><%= blog.body %></p>
+            </div>
+            <div class="extra">
+                <i class="comment icon" style="color: teal"></i>
+                <span class="header" style="font-size: 17;font-weight: bold;">Comments</span> (<%= blog.comments.length + " comments"%>)
+                
+                <div class="item" style="margin: 10">        
+                    <div class="ui fluid action input">
+                    <input type="text" placeholder="Add Comment Area..." name="comment" id="commentArea" class="prompt">
+                    <button class="ui inverted button" id="commentBtn" onclick="commentPost('<%= currentUser ? currentUser.username:null %>', '<%= blog._id %>')"><i class="telegram plane icon"></i></button>
+                </div>
+        
         </div>
             
-            <div>
+            <div class="" id="commentBox" style="max-height: 100px;overflow-y: scroll;">
                 <% blog.comments.forEach(function(comment){ %>
-                        <div class="item" style="border: 1px solid black; border-radius: 20px;padding: 5px;">
-                            <span> <strong> <%= comment.author %>  : </strong> </span>
+                        <div class="" style="padding: 5px;">
+                            <span><img class="ui avatar image" src="https://semantic-ui.com/images/avatar/large/elliot.jpg"> <strong> <%= comment.author %>  : </strong> </span>
                             <span> <%= comment.text %> </span>
                             
-                            <form action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                            <!-- <form action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                                 <button class="ui inverted red button">Delete</button>
-                            </form>
+                            </form> -->
                         </div> 
                 <% }) %>
             </div>
         
          </div>
+            </div>
+        </div>
+    </div>
+</div>
     
 </div>
+<script>
+    function commentPost(currentUsername, postId) { 
+        if(currentUsername || !document.getElementById('commentArea').value) {
+            document.getElementById('messageDiv').style.display = 'block'; 
+            setTimeout(closeMsg, 3000);
+            return;
+        }
+        var obj = {
+            comment:document.getElementById('commentArea').value
+        }
+            axios.post('/blogs/'+postId+'/comments', obj).then(resp=> {
+                    if(resp.data.res == 1) {
+                        var div = document.createElement('DIV');
+                        var span1 = document.createElement('span');
+                        var span2 = document.createElement('span');
+                        var img = document.createElement('img');
+                        var strong = document.createElement('strong');
+                        strong.innerHTML = currentUsername+" : ";
+                        img.setAttribute("class", "ui avatar image");
+                        img.setAttribute("src", "https://semantic-ui.com/images/avatar/large/elliot.jpg");
+                        span1.appendChild(img); 
+                        span1.appendChild(strong);
+                        span2.innerHTML = document.getElementById('commentArea').value;
+                        div.appendChild(span1);
+                        div.appendChild(span2);
+                        document.getElementById('commentBox').insertBefore(div, document.getElementById('commentBox').childNodes[0]);
+                        document.getElementById('commentArea').value = "";
+
+                    } else if(resp.data.res == 0) {
+                            document.getElementById('messageDiv').style.display = 'block'; 
+                            setTimeout(closeMsg, 3000); 
+                    }
+            }).catch(err=> {
+                    console.log(err);
+            });
+    }
+    function likePost(mode, event, postId) { 
+            axios.post('/blogs/'+postId+'/like/'+mode).then(resp=> {
+                    if(resp.data.res == 1) {
+                            if(mode==1) {
+                                    // console.log(mode);
+                                    document.getElementById('likeBtn'+postId).style.display = "none";
+                                    document.getElementById('unlikeBtn'+postId).style.display = "inline";
+                                    document.getElementById('likeCount'+postId).innerHTML = resp.data.count+" likes";
+                            } else {
+                                    // console.log(mode);
+                                    document.getElementById('likeBtn'+postId).style.display = "inline";
+                                    document.getElementById('unlikeBtn'+postId).style.display = "none";
+                                    document.getElementById('likeCount'+postId).innerHTML = resp.data.count+" likes";
+                            }
+                    } else if(resp.data.res == 0) {
+                            document.getElementById('messageDiv').style.display = 'block'; 
+                            setTimeout(closeMsg, 3000); 
+                    }
+            }).catch(err=> {
+                    console.log(err);
+            });
+    }
+    function closeMsg() {
+            document.getElementById('messageDiv').style.display = 'none';
+    }
+</script>
+
 
 <% include partials/footer.ejs %>
