@@ -9,7 +9,11 @@ var blogSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
     }],
-    owner: [{
+    owner: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+    },
+    likes: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
     }]

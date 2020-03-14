@@ -1,5 +1,61 @@
 <% include ./partials/header %>
 
+<div class="ui unstackable items">
+    <div class="item">
+        <div class="image">
+            <img src="<%= blog.image %>" alt="BlogsImage">
+        </div>
+        <div class="content">
+            <a class="header"><%= blog.title %></a>
+            <div class="meta">
+                <span>Description</span>
+            </div>
+            <div class="description">
+                <p><%= blog.body %></p>
+            </div>
+            <div class="extra">
+                Additional Details
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="messageDiv" class="ui message" style="display: none;position: fixed;top: 50px;z-index: 10;width: 100%;">
+    <i class="close icon" onclick="closeMsg()"></i>
+    <div class="ui center aligned header">
+          Unauthorized Access !  
+    </div>
+    <p style="text-align: center;"><a href="/login">Login</a> to continue.</p>
+</div>
+<div class="ui segment" style="background-color: rgba(0, 0, 0, 0.6); color: white;padding: 70px 0 0 10px;">
+                    <div class="content">
+                            <div class="right floated"><%= blog.created.getDate() + "-" + (blog.created.getMonth()+1) + "-" + blog.created.getFullYear() %></div>
+                            <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/large/elliot.jpg"> <%= blog.owner.username %>
+                    </div>
+                
+                    
+                    <div class="content">
+                            <span class="right floated">
+                                    <%= blog.comments.length + " comments"%> 
+                            </span>
+                                 
+                             
+                            <% if(!currentUser) { %>
+                                    <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="color: red;display: none;" title="UnLike" class="heart icon"></i>
+                                    <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="color: black;" title="Like" class="heart outline icon"></i>
+                            <% } else if(blog.likes.find((user)=> user.id==currentUser.id)) { %>
+                                    <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="color: red;" title="UnLike" class="heart icon"></i>
+                                    <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="color: black;display: none;" title="Like" class="heart outline icon"></i>
+                            <% } else { %>
+                                    <i id='unlikeBtn<%= blog._id %>' onclick="likePost(0, event, '<%= blog._id %>')" style="color: red;display: none;" title="UnLike" class="heart icon"></i>
+                                    <i id='likeBtn<%= blog._id %>' onclick="likePost(1, event, '<%= blog._id %>')" style="color: black;" title="Like" class="heart outline icon"></i>
+                            <% } %>
+                            <span id="likeCount<%= blog._id %>"><%= blog.likes.length + " likes"%></span>
+                    </div>
+            </div>
+</div>
+
+
 <div class="ui main text container segment">
     <div class="ui huge header"> <%= blog.title %></div>
     
@@ -10,7 +66,7 @@
             <br>
             <div class="content">
                 <span> <%= blog.created.toDateString() %> </spanp>
-                <span><div class="item">Posted by : <%= blog.owner[0].username %></div></span>
+                <span><div class="item">Posted by : <%= blog.owner.username %></div></span>
             </div>
             <br>
             <div class="description">
@@ -18,7 +74,7 @@
             </div>
             <br>
             
-                <% if(blog.owner[0].equals(currentUser._id)) { %>
+                <% if(blog.owner.equals(currentUser._id)) { %>
                     <a class="ui orange inverted button" href="/blogs/<%= blog._id %>/edit" >Edit</a>
                     <form id="delete" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
                         <button class="ui red inverted button">DELETE</button>                

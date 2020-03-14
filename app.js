@@ -12,10 +12,12 @@ var express                 = require("express"),
 //  REQUIRING ROUTES
 var commentRoutes    = require("./routes/comments"),
     blogRoutes       = require("./routes/blogs"),
+    likeRoutes       = require("./routes/like"),
     indexRoutes      = require("./routes/index");
    
 //   APP CONFIG
-var url = process.env.DATABASEURL || "mongodb://localhost:27017/blogapp";
+// "mongodb://localhost:27017/blogapp" || 
+var url = "mongodb://blogifython1:blogifython1stuser@ds131384.mlab.com:31384/blogifython";
 mongoose.connect(url, {useNewUrlParser: true});
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -47,6 +49,7 @@ app.use(function(req, res, next){
 //  ROUTES
 app.use("/blogs", blogRoutes);
 app.use("/blogs/:id/comments", commentRoutes);
+app.use("/blogs/:id/like", likeRoutes);
 app.use("/", indexRoutes);
 
 app.listen(8080, function(){

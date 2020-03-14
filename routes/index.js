@@ -6,7 +6,13 @@ var express         = require("express"),
 
 //   RESTful ROUTES
 router.get("/",function(req, res) {
-    res.render("landing");
+    Blog.find().populate({path: 'owner likes'}).exec(function(err, blogs) {
+        if(err) {
+            res.redirect("/");
+        } else {
+            res.render("landing", {blogs: blogs});    
+        }
+    });
 });
 
 //  LOGIN
