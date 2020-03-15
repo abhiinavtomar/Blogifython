@@ -10,30 +10,35 @@
         <link rel="shortcut icon" href="/codeicon.ico" type="image/x-icon"/>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <div class="ui inverted menu">
-            <div class="ui container">
-                <div class="header item"><i class="code icon"></i>BLOGIFYTHON<br>By Abhinav Tomar</div>
-                <a href="/" class="item">Home</a>
-                <a href="/blogs" class="item">Blogs</a>
-                <a href="/blogs/new" class="item">New Post</a>
-                <% if(error != "") { %>
-                    <div class="ui negative message"> <%= error %> </div>
-                <% } else if(success != "") { %>
-                    <div class="ui teal message"> <%= success %> </div>
-                <% } %>
-                <div class="right menu">
-                    <% if(!currentUser){ %>
-                    <a href="/login" class="item">LOGIN</a>
-                    <a href="/register" class="item">REGISTER</a>
-                    <% } else { %>
-                    <div class="item"><a href="#">Signed In As <%= currentUser.username %></a></div>
-                    <a href="/logout" class="item">LOGOUT</a>
-                    <% } %>
+        <!-- <div class="ui segment"> -->
+            <div class="ui inverted menu">
+                <div class="item">
+                    <a href="/" class="ui header" style="color: white;"><i class="code icon"></i>BLOGIFYTHON</a>
                 </div>
-            </div>
+                <div class="ui right dropdown item" id="MenuBtn">
+                    <i class="bars icon"></i>
+                    <div class="menu" id="menuItems" style="width: 350px; height: 300px; background-color: rgba(0, 0, 0, 0.9);">
+                        <% if(currentUser){ %>
+                            <div class="item" style="width: 100%; text-indent: 10px;"><a style="font-weight: bolder; font-size: 20px;" href="#"><i class="user icon"></i>   <%= currentUser.username %></a></div>
+                        <% } %>
+                        <div class="item" style="width: 100%; text-indent: 10px;"><a style="font-weight: bolder; font-size: 20px;" href="/"><i class="home icon"></i>   HOME</a></div>
+                        <% if(!currentUser){ %>
+                        <div class="item" style="width: 100%; text-indent: 10px;"><a style="font-weight: bolder; font-size: 20px;" href="/login"><i class="sign-in icon"></i>   LOGIN</a></div>
+                        <div class="item" style="width: 100%; text-indent: 10px;"><a style="font-weight: bolder; font-size: 20px;" href="/register"><i class="user plus icon"></i>   REGISTER</a></div>
+                        <% } else { %>
+                        <div class="item" style="width: 100%; text-indent: 10px;"><a style="font-weight: bolder; font-size: 20px;" href="/blogs"><i class="file alternate icon"></i>   YOUR BLOGS</a></div>
+                        <div class="item" style="width: 100%; text-indent: 10px;"><a style="font-weight: bolder; font-size: 20px;" href="/blogs/new"><i class="edit icon"></i>   NEW POST</a></div>
+                        <div class="item" style="width: 100%; text-indent: 10px;"><a style="font-weight: bolder; font-size: 20px;" href="/logout"><i class="sign-out icon"></i>   LOGOUT</a></div>
+                        <% } %>
+                        <div class="item" style="position: absolute;bottom: 0;"><i class="copyright icon" style="color: wheat;"> 2020 - Abhinav Tomar</i></div>
+                    </div>
+                </div>
+            <!-- </div> -->
         </div>
-    
         
-    
+        
+
+        

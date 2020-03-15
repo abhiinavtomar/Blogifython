@@ -1,28 +1,48 @@
 <% include partials/header.ejs %>
 
-<div class="ui main text container">
-    <div class="ui huge header">Blog App</div>
-    <a href="/blogs/new" class="ui violet huge button">CREATE A NEW POST</a>
+<div id="messageDiv" class="ui message" style="display: none;position: fixed;top: 50px;z-index: 10;width: 100%;">
+    <i class="close icon" onclick="closeMsg()"></i>
+    <div class="ui center aligned header">
+          Unauthorized Access !  
+    </div>
+    <p style="text-align: center;"><a href="/login">Login</a> to continue.</p>
+</div>
+<div id="messageDiv2" class="ui message" style="display: none;position: fixed;top: 50px;z-index: 10;width: 100%;">
+    <i class="close icon" onclick="closeMsg()"></i>
+    <div class="ui center aligned header">
+            Post deleted Succcessfully.
+    </div>
+</div>
+<div class="ui main text container">    
     <div class="ui top attached segment">
-        <div class="ui divided items">
-            <% user.blogs.forEach(function(blog){ %>
-                <div class="item">
-                    <div class="image">
-                        <img src = "<%= blog.image %>" alt = "BlogsImage">
+        <a href="/blogs/new" class="ui violet button" style="float: right;">New POST</a>
+        <div class="ui huge left floated header">Your BLOGS</div>
+        <div class="ui divided items" id="BlogsContainer">
+            <% user.blogs.forEach((blog, index) => { %>
+                <div class="item" id="blogid<%= blog._id %>">
+                    <div class="image" style="width: 240;height: 150;">
+                        <img src = "<%= blog.image %>" style="width: 100%;height: 100%;" alt = "BlogsImage">
                     </div>
                     <div class="content">
                         <a class="header" href="/blogs/<%= blog._id %>" ><%= blog.title %></a>
                         <div class="meta">
-                            <span> <%= blog.created %> </span>
+                            <span> <%= blog.created.toString().substring(0, 15) %> </span>
                         </div>
                         <div class="description">
                             <p> <%- blog.body.substring(0, 100) %>... </p>
                         </div>
                         <div class="extra">
-                            <a class="ui floated basic blue button" href="/blogs/<%= blog._id %>" >
+                            <a class="ui basic blue button" href="/blogs/<%= blog._id %>" >
                                 More Info
                                 <i class="right chevron icon"></i>
                             </a>
+                            <button title="Delete Post" onclick="deletePost('<%= index %>', '<%= blog._id %>')" class="ui right floated red circular icon button" style="padding: 15px;">
+                                <i class="large trash alternate icon"></i>
+                            </button>
+                            <button onclick="editPost('<%= blog._id %>')" title="Edit Post" class="ui right floated green circular icon button" style="padding: 15;">
+                                <i class="large edit icon"></i>
+                            </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -30,6 +50,33 @@
         </div>
     </div>
 </div>
+<script>
+    function editPost(blogId) {
+        window.location = "/blogs/"+blogId+"/edit";
+    }
+    function deletePost(index, blogId) {
+        if(window.confirm("Do you want to delete this post ?")) {
+            axios.delete('/blogs/'+blogId).then(resp=>{
+                if(resp.data.res == 1) {
+                    var par = document.getElementById('BlogsContainer');
+                    var post = document.getElementById("blogid" + blogId);
+                    par.removeChild(post);
+                    document.getElementById('messageDiv2').style.display = 'block';
+                    setTimeout(closeMsg, 3000);
+                } else {
+                    document.getElementById('messageDiv').style.display = 'block'; 
+                    setTimeout(closeMsg, 3000); 
+                }
+            }).catch(err=> {
+                console.log(err);
+            });
+        }
+    }
+    function closeMsg() {
+        document.getElementById('messageDiv').style.display = 'none';
+        document.getElementById('messageDiv2').style.display = 'none';
+    }
+</script>
 
 
 <% include partials/footer.ejs %>

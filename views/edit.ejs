@@ -2,7 +2,7 @@
 
 <div class="ui main text container segment">
     <div class="ui huge header">Edit <%= blog.title %></div>
-
+    <a href="https://unsplash.com/" class="ui inverted orange button item">Find Online Pictures here , paste the URL above</a>
 <form class="ui form" action="/blogs/<%= blog._id %>?_method=PUT" method="POST">
     <div class="field">
         <label>Title</label>
@@ -19,7 +19,7 @@
     </div>
     <input class="ui inverted big teal button" type="submit">
 </form>
-<a href="https://unsplash.com/" class="ui inverted orange button item">Find Online Pictures here , paste the URL above</a>
+
 </div>
 
 <% include partials/footer.ejs %>

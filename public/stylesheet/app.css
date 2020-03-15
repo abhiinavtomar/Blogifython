@@ -2,10 +2,6 @@ i.icon {
     font-size: 2em;
 }
 
-.container.main {
-     margin-top: 8.0em;   
-}
-
 #delete {
     display: inline;
 }
@@ -17,22 +13,8 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
-
-#login-container {
-    display: inline-block;
-    margin-top: 15%;
-    margin-left: 15%;
-    width: 70%;
-    font-family: "Avenir";
-    background-color: steelblue;
-    border-radius: 80px;
-    padding: 30px;
-    text-align: center;
+@media only screen and (max-width: 640px) {
+    #barsIcon {
+        display: block;
+    }
 }
-
-#comment {
-    margin-left: 10%;
-    text-align: center;
-    width: 80%;
-}
-

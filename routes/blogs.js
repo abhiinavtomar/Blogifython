@@ -59,7 +59,7 @@ router.get("/:id/edit", isLoggedIn, function(req, res) {
             res.redirect("/blogs");
         }
         else {
-            if(blog.owner[0].equals(req.user._id)) {
+            if(blog.owner.equals(req.user._id)) {
                 res.render("edit", {blog: blog});
             } else {
                 res.render("show", {blog: blog});   
@@ -85,24 +85,23 @@ router.put("/:id",isLoggedIn, function(req, res){
 
 //  6.  DELETE
 router.delete("/:id",isLoggedIn, function(req, res){
-        Blog.findById(req.params.id, function(err, blog) {
-           if(blog.owner[0].equals(req.user._id)) {
-               req.flash("error", "You dont have delete permission !!!");
-               res.redirect("/blogs");
-           } else {
-               blog.remove(err, function(err) {
-                  if(err) {
-                        console.log(err);
-                        req.flash("error", "Something happened !!!");
-                        res.redirect("/blogs");
-               }
-               else {
-                   req.flash("success", "Post deleted successfully ...");
-                   res.redirect("/blogs");
-               } 
-               });
-           }
-        });
+    Blog.findById(req.params.id, function(err, blog) {
+        if(err) {
+            console.log(err);
+            res.json({'res': 0});
+        }else if(!blog.owner.equals(req.user._id)) {
+            res.json({'res': 0});
+        } else {
+            blog.remove(err, function(err) {
+                if(err) {
+                    console.log(err);
+                    res.json({'res': 0});
+                } else {
+                    res.json({'res': 1});
+                } 
+            });
+        }
+    });
 });
 
 //  MIDDLEWARE

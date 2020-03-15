@@ -1,26 +1,18 @@
 <% include ./partials/header %>
 
-<div id="login-container">
-    <form action="/register" method="POST">
-            
-            <h1>REGISTER</h1>
-            <div class="ui corner labeled input">
+<div class="ui container">
+    <form class="ui form" action="/register" method="POST">
+        <div class="two fields">
+            <div class="field">
+                <label>Login Username</label>
                 <input type="text" placeholder="Username" name="username">
-                <div class="ui corner label">
-                    <i class="asterisk icon"></i>
-                </div>
             </div>
-           
-            <div class="ui corner labeled input">
+            <div class="field">
+                <label>Password</label>
                 <input type="password" placeholder="Password" name="password">
-                    <div class="ui corner label">
-                    <i class="asterisk icon"></i>
-                </div>
             </div>
-            <br>
-            
-            <br>
-            <button class="ui inverted teal button">REGISTER</button>
+        </div>
+        <button class="ui red right floated button" type="submit">Register</button>
     </form>
 </div>
 

@@ -7,10 +7,16 @@
     </div>
     <p style="text-align: center;"><a href="/login">Login</a> to continue.</p>
 </div>
-<div class="" style="margin: 10;">
+<div id="messageDiv2" class="ui message" style="display: none;position: fixed;top: 50px;z-index: 10;width: 100%;">
+    <i class="close icon" onclick="closeMsg()"></i>
+    <div class="ui center aligned header">
+            Comment added successfully.  
+    </div>
+</div>
+<div class="" style="margin: 10;background-color: rgba(0, 0, 0, 0.6); min-height: 85%;">
     <div class="">
         <div class="" style="float:right;max-width: 500px; margin: 10px;background-color: white;padding: 0px;overflow: hidden;">
-            <img src="<%= blog.image %>" alt="BlogsImage">
+            <img src="<%= blog.image %>" style="width: 100%;" alt="BlogsImage">
             <div class="content">
                 <span class="" style="float: right;padding: 5px;">
                     <%= blog.comments.length + " comments"%> 
@@ -28,9 +34,8 @@
                 <span id="likeCount<%= blog._id %>" style="font-weight: bolder;margin: auto;"><%= blog.likes.length + " likes"%></span>
             </div>
         </div>
-        <div class="content" style="background-color: rgba(0, 0, 0, 0.6); padding: 10px;color: whitesmoke;">
+        <div class="content" style="padding: 10px;color: whitesmoke;">
             <h1 class="" style="text-decoration: underline;color: orangered; font-weight: bolder;"><%= blog.title %></h1>
-            
             <div class="meta">
                 <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/large/elliot.jpg" style="margin: 5 15 5 7;"> 
                 <span class="" style="font-size: 20; "><%= blog.owner.username %></span>
@@ -62,10 +67,6 @@
                         <div class="" style="padding: 5px;">
                             <span><img class="ui avatar image" src="https://semantic-ui.com/images/avatar/large/elliot.jpg"> <strong> <%= comment.author %>  : </strong> </span>
                             <span> <%= comment.text %> </span>
-                            
-                            <!-- <form action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                                <button class="ui inverted red button">Delete</button>
-                            </form> -->
                         </div> 
                 <% }) %>
             </div>
@@ -79,7 +80,7 @@
 </div>
 <script>
     function commentPost(currentUsername, postId) { 
-        if(currentUsername || !document.getElementById('commentArea').value) {
+        if(!currentUsername || !document.getElementById('commentArea').value) {
             document.getElementById('messageDiv').style.display = 'block'; 
             setTimeout(closeMsg, 3000);
             return;
@@ -104,6 +105,8 @@
                         div.appendChild(span2);
                         document.getElementById('commentBox').insertBefore(div, document.getElementById('commentBox').childNodes[0]);
                         document.getElementById('commentArea').value = "";
+                        document.getElementById('messageDiv2').style.display = 'block'; 
+                        setTimeout(closeMsg, 3000); 
 
                     } else if(resp.data.res == 0) {
                             document.getElementById('messageDiv').style.display = 'block'; 
@@ -137,6 +140,7 @@
     }
     function closeMsg() {
             document.getElementById('messageDiv').style.display = 'none';
+            document.getElementById('messageDiv2').style.display = 'none'; 
     }
 </script>
 
