@@ -16,8 +16,8 @@ var commentRoutes    = require("./routes/comments"),
     indexRoutes      = require("./routes/index");
    
 //   APP CONFIG
-// "mongodb://localhost:27017/blogapp" || 
-var url = "mongodb://blogifython1:blogifython1stuser@ds261626.mlab.com:61626/blogifython";
+// "mongodb://localhost:27017/blogapp"
+var url = process.env.DATABASEURL;
 mongoose.connect(url, {useNewUrlParser: true});
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
