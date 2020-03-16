@@ -101,6 +101,7 @@
                         span1.appendChild(img); 
                         span1.appendChild(strong);
                         span2.innerHTML = document.getElementById('commentArea').value;
+                        div.setAttribute('style', 'padding: 5px');
                         div.appendChild(span1);
                         div.appendChild(span2);
                         document.getElementById('commentBox').insertBefore(div, document.getElementById('commentBox').childNodes[0]);
