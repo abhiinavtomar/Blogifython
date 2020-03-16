@@ -16,8 +16,7 @@ var commentRoutes    = require("./routes/comments"),
     indexRoutes      = require("./routes/index");
    
 //   APP CONFIG
-// "mongodb://localhost:27017/blogapp"
-var url = process.env.DATABASEURL;
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/blogapp";
 mongoose.set('useUnifiedTopology', true);
 mongoose.connect(url, {useNewUrlParser: true});
 app.set("view engine", "ejs");
