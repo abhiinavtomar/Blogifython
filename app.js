@@ -54,6 +54,6 @@ app.use("/blogs/:id/comments", commentRoutes);
 app.use("/blogs/:id/like", likeRoutes);
 app.use("/", indexRoutes);
 
-app.listen(process.env.port || 8080, function(){
+app.listen(process.env.PORT || 8080, function(){
     console.log("Server has started..."); 
 });
